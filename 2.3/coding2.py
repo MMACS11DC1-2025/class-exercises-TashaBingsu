@@ -14,3 +14,14 @@ Judge 4: 8.5
 Judge 5: 9
 Your Olympic score is 8.0
 """
+
+score = 0
+judy = ["Rate the performance from 1-10! ", "Rate the performance from 1-10! ", "Rate the performance from 1-10! ", "Rate the performance from 1-10! ", "Rate the performance from 1-10! "]
+
+for i in judy:
+    rate = float(input(i))
+    score += rate
+    
+whatever = len(rate)
+
+print("You got an average of " + str(score/whatever) + "!")
