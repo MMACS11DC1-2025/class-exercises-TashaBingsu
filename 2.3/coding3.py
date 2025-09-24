@@ -25,3 +25,5 @@ Would you like fries for $3? (Yes/No)
 > yes
 Your total is $3.42
 """
+
+question = (input("Do you want a burger? "))
