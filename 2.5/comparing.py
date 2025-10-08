@@ -6,9 +6,22 @@ You must use user input to add interactivity to the program.
 You must design your algorithm in English first, then translate it to Python code.
 Test as you go! Describe in your comments what steps you took to test your code.
 """
+
 file = open("2.4/responses.csv")
-name = input("Please tell me your name: ").strip().lower()
-for line in file:
-    if name in line.lower():
-        print(line)
-        myline = line
+junk = file.readline()
+
+print("Hello. Please enter your full name! We will be comparing you with another person from this class to see how compatible you two are.")
+yourname = input("Your name is: ").lower().strip()
+
+print("Ok awesomesauce -_-. Now enter your classmates name please.")
+name2 = input("Classmate's name: ").lower().strip()
+
+reccomendation= []
+yourname_list = []
+name2_list = []
+
+for hi in file:
+if str(yourname) in hi.lower():
+yourname_list = hi.split(",")
+
+
