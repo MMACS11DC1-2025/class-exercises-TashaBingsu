@@ -59,6 +59,7 @@ for i in range(1, total_qs + 1):  # start from 1 to skip name column
         if yourname_list[i].strip().lower() == name2_list[i].strip().lower():
             similar += 1
 
+# printing results and quirky lil messages
 if similar == 0:
     print("Ok.. so you guys have 0 things in common. Hopefully you can still be friends!")
 elif similar == 1:
@@ -71,8 +72,8 @@ elif similar <= 7:
     print("Alrighttt, I see good friends in the making. You guys have " + str(similar) + " things in common!")
 elif similar == 8:
     print("P-P-Pause!! You guys have everything in common! Is this your twin perhaps?")
-else:
-    print("Hm.")
 
+
+# print how compatibile you are
 compatibility = (similar / total_qs) * 100
-print("Your compatibility percent is: " + compatibility)
+print("Your compatibility percent is: " + str(compatibility) + "%")
