@@ -7,7 +7,9 @@ Write recursive functions for each of the following problems:
 # Remember that n! is defined as n * (n-1)! and 0! is 1
 def factorial(n):
     # TODO implement this
-    return 1
+    if n==1:
+        return 1
+    return n*factorial(n-1)
 
 print(factorial(1)) # Expected output: 1
 print(factorial(2)) # Expected output: 2
@@ -21,7 +23,9 @@ print(factorial(5)) # Expected output: 120
 
 def power(x, y):
     # TODO implement this
-    return 1
+    if y == 0:
+        return 1
+    return x * power(x, y-1)
 
 # Test cases
 print(power(2, 3))  # Expected output: 8
@@ -34,8 +38,9 @@ print(power(3, 2))  # Expected output: 9
 # Remember that the sum of a list is the first item plus the sum of the rest of the list.
 
 def sum_list_recursive_helper(numbers, index):
-    # TODO: implement this
-    return 0
+    if index == len(numbers):
+        return 0
+    return numbers[index] + sum_list_recursive_helper(numbers, index + 1)
 
 def sum_list(numbers):
     if len(numbers) > 0:
@@ -56,7 +61,7 @@ print(sum_list([5, 10, 15]))    # Expected output: 30
 
 vowels = "aeiou"
 def count_vowels_recursive_helper(word, index):
-    # TODO implement this
+    if
     return 0
 
 def count_vowels(word):
