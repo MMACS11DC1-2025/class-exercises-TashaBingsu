@@ -93,3 +93,8 @@ else:  # Square fractal
 # Display results
 t.penup()
 t.goto(0, -200)
+
+#i will admit i used ai to help fix errors but then it changed my code along with comments, 
+# so i want to change them back to how i wouldve said it.
+#https://inventwithpython.com/recursion/chapter9.html
+#https://understanding-recursion.readthedocs.io/en/latest/13%20Koch%20Curves.html
