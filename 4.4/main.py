@@ -96,6 +96,3 @@ def main():
     t.color("white")
     
     t.goto(-200, -150)
-
-if __name__ == "__main__":
-    main()
