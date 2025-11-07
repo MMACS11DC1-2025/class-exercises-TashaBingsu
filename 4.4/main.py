@@ -52,47 +52,44 @@ def draw_square_fractal(t, length, depth, call_count):
     
     return call_count
 
-def main():
-    t = setup_turtle()
-    
-    # Fractal settings dictionary
-    fractals = {
-        "1": {"name": "Koch Snowflake", "color": "cyan"},
-        "2": {"name": "Square Fractal", "color": "yellow"}
-    }
-    
-    print("FRACTAL GENERATOR")
-    print("1. Koch Snowflake") 
-    print("2. Square Fractal")
-    
-    choice = input("Choose a fractal 1 or 2: ")
-    
-    if choice not in fractals:
-        print("NOO. Fine, I'll pick the Koch snowflake then.")
-        choice = "1"
-    
-    depth = int(input("Enter depth (1-6): "))
-    
-    # Set color and position
-    t.color(fractals[choice]["color"])
-    t.penup()
-    
-    if choice == "1":
-        t.goto(-150, 100)
-        t.pendown()
-        # Draw triangle of Koch curves to make snowflake
-        calls = 0
-        for _ in range(3):
-            calls = draw_koch(t, 300, depth, calls)
-            t.right(120)
-    else:  # Square fractal
-        t.goto(-100, -100)
-        t.pendown()
-        calls = draw_square_fractal(t, 200, depth, 0)
-    
-    # Display results
-    t.penup()
-    t.goto(0, -200)
-    t.color("white")
-    
-    t.goto(-200, -150)
+# Main program starts here
+t  = setup_turtle()
+
+# Fractal settings dictionary
+fractals = {
+    "1": {"name": "Koch Snowflake", "color": "pink"},
+    "2": {"name": "Square Fractal", "color": "blue"}
+}
+
+print("FRACTAL GENERATOR")
+print("1. Koch Snowflake") 
+print("2. Square Fractal")
+
+choice = input("Choose a fractal (1-2): ")
+
+if choice not in fractals:
+    print("Sorry, I'll just pick for you then. I pick the Koch Snowflake.")
+    choice = "1"
+
+depth = int(input("Enter depth (1-6): "))
+
+# Set color and position
+t.color(fractals[choice]["color"])
+t.penup()
+
+if choice == "1":
+    t.goto(-150, 100)
+    t.pendown()
+    # Draw triangle of Koch curves to make snowflake
+    calls = 0
+    for _ in range(3):
+        calls = draw_koch(t, 300, depth, calls)
+        t.right(120)
+else:  # Square fractal
+    t.goto(-100, -100)
+    t.pendown()
+    calls = draw_square_fractal(t, 200, depth, 0)
+
+# Display results
+t.penup()
+t.goto(0, -200)
