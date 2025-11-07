@@ -58,14 +58,14 @@ t  = setup_turtle()
 # Fractal settings dictionary
 fractals = {
     "1": {"name": "Koch Snowflake", "color": "pink"},
-    "2": {"name": "Square Fractal", "color": "blue"}
+    "2": {"name": "Square Fractal", "color": "yellow"}
 }
 
-print("FRACTAL GENERATOR")
+print("Recursive Fractal Art Generator!")
 print("1. Koch Snowflake") 
 print("2. Square Fractal")
 
-choice = input("Choose a fractal (1-2): ")
+choice = input("Choose a fractal 1 or 2: ")
 
 if choice not in fractals:
     print("Sorry, I'll just pick for you then. I pick the Koch Snowflake.")
@@ -78,7 +78,7 @@ t.color(fractals[choice]["color"])
 t.penup()
 
 if choice == "1":
-    t.goto(-150, 100)
+    t.goto(-120, 100)
     t.pendown()
     # Draw triangle of Koch curves to make snowflake
     calls = 0
@@ -86,13 +86,14 @@ if choice == "1":
         calls = draw_koch(t, 300, depth, calls)
         t.right(120)
 else:  # Square fractal
-    t.goto(-100, -100)
+    t.goto(-30, 80)
     t.pendown()
     calls = draw_square_fractal(t, 200, depth, 0)
 
 # Display results
 t.penup()
 t.goto(0, -200)
+
 
 #i will admit i used ai to help fix errors but then it changed my code along with comments, 
 # so i want to change them back to how i wouldve said it.
