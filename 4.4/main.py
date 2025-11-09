@@ -7,6 +7,9 @@ def setup_turtle():
     return t
 
 #koch snowflake
+# I used these links to help with the code:
+#https://inventwithpython.com/recursion/chapter9.html
+#https://understanding-recursion.readthedocs.io/en/latest/13%20Koch%20Curves.html
 def draw_koch(t, length, depth, calls):
     calls += 1 #when the function calls itself, calls increase by 1
     
@@ -14,7 +17,7 @@ def draw_koch(t, length, depth, calls):
         t.forward(length)
         return calls
     
-    length /= 3.0
+    length /= 3
     calls = draw_koch(t, length, depth - 1, calls)
     t.left(60)
     calls = draw_koch(t, length, depth - 1, calls)
@@ -26,6 +29,9 @@ def draw_koch(t, length, depth, calls):
     return calls
 
 #square fractal
+#I used inspiration from this link but reused variables from the snowflake
+#https://stackoverflow.com/questions/59009062/generating-square-fractals-with-python
+#similar process of dividing the length
 def draw_sqr_frac(t, length, depth, calls):
     calls += 1
     
@@ -94,12 +100,6 @@ else:  #second option: square fractal
     t.pendown()
     calls = draw_sqr_frac(t, 200, depth, 0)
 
-#displays results
-t.penup()
-t.goto(0, -200)
-
-
 #i will admit i used ai to help fix errors but then it changed my code along with comments, 
-# so i want to change them back to how i wouldve said it.
-#https://inventwithpython.com/recursion/chapter9.html
-#https://understanding-recursion.readthedocs.io/en/latest/13%20Koch%20Curves.html
+# so i want to change them back to how i wouldve said it. 
+# (if you're wondering about the difference in commits.)
