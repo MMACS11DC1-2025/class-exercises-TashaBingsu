@@ -6,91 +6,95 @@ def setup_turtle():
     t.hideturtle()
     return t
 
-def draw_koch(t, length, depth, call_count):
-    """Draw Koch Curve"""
-    call_count += 1
+#koch snowflake
+def draw_koch(t, length, depth, calls):
+    calls += 1 #when the function calls itself, calls increase by 1
     
     if depth == 0:
         t.forward(length)
-        return call_count
+        return calls
     
     length /= 3.0
-    call_count = draw_koch(t, length, depth - 1, call_count)
+    calls = draw_koch(t, length, depth - 1, calls)
     t.left(60)
-    call_count = draw_koch(t, length, depth - 1, call_count)
+    calls = draw_koch(t, length, depth - 1, calls)
     t.right(120)
-    call_count = draw_koch(t, length, depth - 1, call_count)
+    calls = draw_koch(t, length, depth - 1, calls)
     t.left(60)
-    call_count = draw_koch(t, length, depth - 1, call_count)
+    calls = draw_koch(t, length, depth - 1, calls)
     
-    return call_count
+    return calls
 
-def draw_square_fractal(t, length, depth, call_count):
-    """Draw a square fractal pattern"""
-    call_count += 1
+#square fractal
+def draw_sqr_frac(t, length, depth, calls):
+    calls += 1
     
     if depth == 0:
         for _ in range(4):
             t.forward(length)
             t.right(90)
-        return call_count
+        return calls
     
-    # Draw smaller squares at each corner
+    # drwas smaller squares at each corner
     length /= 3
     
     for i in range(4):
-        # Draw main square side
+        #draws main square side
         t.forward(length)
         
-        # Save position for smaller square
+        # saves the position for the smaller square
         t.left(90)
-        call_count = draw_square_fractal(t, length, depth - 1, call_count)
+        calls = draw_sqr_frac(t, length, depth - 1, calls)
         t.right(90)
         
         t.forward(length)
         t.right(90)
     
-    return call_count
+    return calls
 
-# Main program starts here
+#starts generating here
 t  = setup_turtle()
 
-# Fractal settings dictionary
+#fractal settings dictionary
 fractals = {
     "1": {"name": "Koch Snowflake", "color": "pink"},
-    "2": {"name": "Square Fractal", "color": "yellow"}
+    "2": {"name": "Square Fractal", "color": "black"}
 }
 
 print("Recursive Fractal Art Generator!")
 print("1. Koch Snowflake") 
 print("2. Square Fractal")
 
-choice = input("Choose a fractal 1 or 2: ")
+choice = input("Please choose a fractal, 1 or 2: ")
 
 if choice not in fractals:
     print("Sorry, I'll just pick for you then. I pick the Koch Snowflake.")
     choice = "1"
 
-depth = int(input("Enter depth (1-6): "))
+while True:
+    depth = int(input("Enter depth (1-4): "))
+    if 1 <= depth <= 4:
+        break
+    print("Please enter between 1-4.")
 
-# Set color and position
+#setting the color and position of fractals
 t.color(fractals[choice]["color"])
 t.penup()
 
 if choice == "1":
     t.goto(-120, 100)
     t.pendown()
-    # Draw triangle of Koch curves to make snowflake
+    #first option: koch triangle
     calls = 0
     for _ in range(3):
         calls = draw_koch(t, 300, depth, calls)
         t.right(120)
-else:  # Square fractal
+else:  #second option: square fractal
     t.goto(-30, 80)
     t.pendown()
-    calls = draw_square_fractal(t, 200, depth, 0)
+    calls = draw_sqr_frac(t, 200, depth, 0)
 
-# Display results
+#displays results
 t.penup()
 t.goto(0, -200)
 
