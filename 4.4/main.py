@@ -78,10 +78,12 @@ if choice not in fractals:
     choice = "1"
 
 while True:
-    depth = int(input("Enter depth (1-4): "))
-    if 1 <= depth <= 4:
+    dep = input("Enter depth (1-4): ")
+    if dep in ["1", "2", "3", "4"]:
+        depth = int(dep)
         break
-    print("Please enter between 1-4.")
+    else:
+        print("PLEASE enter 1, 2, 3, or 4.")
 
 #setting the color and position of fractals
 t.color(fractals[choice]["color"])
