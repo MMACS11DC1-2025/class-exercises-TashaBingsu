@@ -1,19 +1,23 @@
 from PIL import Image
+import coolcolours
 
 image_green = Image.open("5.1/kid-green.jpg").load()
 image_beach = Image.open("5.1/beach.jpg").load()
 
-def is_green(r, g, b):
-    if r >= 0 r < 25 and g > 230 and g <= 255 and b >= 0 and b < 25:
-        return True
-    else:
-        return False
-
 image_green = Image.open("kid-green.jpg").load()
-image_beach = Image.open("beach.jpg").load()
 
-print(image_greem[0,0])
+width = image_output.width
+height = image_output.height
 
-pixel = image_green[0,0]
-r = pixel[0]
-g = image_green
+for i in range(width):
+    for j in range(height):
+        im_r = image_green[i, j][0]
+        im_g = image_green[i, j][1]
+        im_b = image_green[i, j][2]
+
+        if is_green(im_r,im_g,im_b):
+            beach_colour = image_beach[i,j]
+            xy = (i,j)
+            image_output.putpixel(xy, beach_colour)
+
+image_output.save("output.png", "png")
