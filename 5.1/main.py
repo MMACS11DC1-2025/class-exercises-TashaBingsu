@@ -16,7 +16,7 @@ def colour(r, g, b):
         return "green"
     elif r > 45 and g > 55 and b > 178:
         return "blue"
-    elif r > 255 and g > 255 and b > 255:
+    elif r > 0 and g > 0 and b > 0:
         return "black"
     elif r > 210 and g > 110 and b < 10:
         return "orange"
@@ -31,6 +31,7 @@ yellow_pixels = []
 red_pixels = []
 green_pixels = []
 blue_pixels= []
+black_pixels= []
 orange_pixels = []
 
 width = file.width
@@ -65,7 +66,7 @@ num_yellow = len(yellow_pixels)
 num_red = len(red_pixels)
 num_green = len(green_pixels)
 num_blue = len(blue_pixels)
-num_black = len(blue_pixels)
+num_black = len(black_pixels)
 num_orange = len(orange_pixels)
 
 
@@ -77,6 +78,7 @@ yellow_ratio = num_yellow / total_pixels
 red_ratio = num_red / total_pixels
 green_ratio = num_green / total_pixels
 blue_ratio = num_blue / total_pixels
+black_ratio = num_black / total_pixels
 orange_ratio = num_orange / total_pixels
 
 
@@ -84,16 +86,18 @@ num_yellow = len(yellow_pixels)
 num_red = len(red_pixels)
 num_green = len(green_pixels)
 num_blue = len(blue_pixels)
+num_black = len(black_pixels)
 num_orange = len(orange_pixels)
 
 yellow_percent = yellow_ratio * 100
 red_percent = red_ratio * 100
 green_percent = green_ratio * 100
 blue_percent = blue_ratio * 100
+black_percent = black_ratio * 100
 orange_percent = orange_ratio * 100
 
 report = "there are {:.2f}% yellow jelly beans, {:.2f}% red jelly beans, {:.2f}% green jelly beans," \
-          "{:.2f}% blue jelly beans, {:.2f}% orange jelly beans".format(yellow_percent, red_percent, green_percent, blue_percent, orange_percent)
+          " {:.2f}% blue jelly beans, {:.2f}% black jelly beans, {:.2f}% orange jelly beans".format(yellow_percent, red_percent, green_percent, blue_percent, black_percent, orange_percent)
 print(report)
 
 module_load = t1- t0
