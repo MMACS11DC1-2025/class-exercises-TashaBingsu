@@ -15,3 +15,12 @@ for line in file:
 print("Dance score \tSong")
 for item in drake_data:
 	print(str(item[0]) + "\t\t" + item[1] + " by " + item[2])
+
+for j in range(j+1, len(drake_data)):
+	if drake_data[j] < smallest:
+		smallest = drake_data[j]
+		lowest_index = j
+
+drake_data[lowest_index], drake_data[lowest_index] = drake_data[lowest_index],
+
+print(drake_data)
