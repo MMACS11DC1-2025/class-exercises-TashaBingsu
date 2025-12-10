@@ -80,13 +80,6 @@ black_ratio = num_black / total_pixels
 orange_ratio = num_orange / total_pixels
 
 
-num_yellow = len(yellow_pixels)
-num_red = len(red_pixels)
-num_green = len(green_pixels)
-num_blue = len(blue_pixels)
-num_black = len(black_pixels)
-num_orange = len(orange_pixels)
-
 yellow_percent = yellow_ratio * 100
 red_percent = red_ratio * 100
 green_percent = green_ratio * 100

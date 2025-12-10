@@ -53,4 +53,16 @@ num_grey = len(grey_pixels)
 num_white = len(white_pixels)
 num_black = len(black_pixels)
 
+total_pixels = width*height
 
+grey_ratio = num_grey / total_pixels
+white_ratio = num_white / total_pixels
+black_ratio = num_black / total_pixels
+
+grey_percent = grey_ratio * 100
+white_percent = white_ratio * 100
+black_percent = black_ratio * 100
+
+for j in range(len(images)):
+    if grey_percent > white_percent:
+        
