@@ -14,8 +14,8 @@ def colour(r, g, b):
     
     if gray_value <= 100:  # Black - normal lungs
         return "black"
-    elif gray_value <= 190:  # Grey - suspicious
-        return "grey"
+    elif gray_value <= 190:  # Gray - suspicious
+        return "gray"
     else:  # White - pneumonia
         return "white"
 
@@ -32,50 +32,52 @@ for i in range(len(images)):
     
     width, height = image.size
     
-    grey_pixels = 0
-    white_pixels = 0
-    black_pixels = 0
+    gray_pixels = []
+    white_pixels = []
+    black_pixels = []
     
     for x in range(width):
         for y in range(height):
             # Gets the RGB values from original image
             pixels = image_pixels[x, y]
             r = pixels[0]
-            g = pixels[1] if len(pixels) > 1 else r
-            b = pixels[2] if len(pixels) > 2 else r
+            g = pixels[1]
+            b = pixels[2]
             
-            # Classify pixel
             pixel_type = colour(r, g, b)
             
-            if pixel_type == "grey":
-                grey_pixels += 1
+            if pixel_type == "gray":
+                gray_pixels.append((x,y))
             elif pixel_type == "white":
-                white_pixels += 1
+                white_pixels.append((x,y))
             elif pixel_type == "black":
-                black_pixels += 1
+                black_pixels.append((x,y))
+
+            gray_pixels_count = len(gray_pixels)  # Number of gray pixels
+            white_pixels_count = len(white_pixels)
+            black_pixels_count = len(black_pixels)
     
-    # Calculating percentage of each type of pixel
     total_pixels = width * height
     
-    grey_percent = (grey_pixels / total_pixels) * 100
-    white_percent = (white_pixels / total_pixels) * 100
-    black_percent = (black_pixels / total_pixels) * 100
-    
-    # Calculate weighted pneumonia score * need to fix this
-    # White = 1.0, Grey = 0.5, Black = 0.0
-    weighted_score = ((white_pixels * 1.0) + (grey_pixels * 0.5)) / total_pixels * 100
+    gray_percent = (gray_pixels_count / total_pixels) * 100
+    white_percent = (white_pixels_count / total_pixels) * 100
+    black_percent = (black_pixels_count / total_pixels) * 100
+
+    # Calculate ed pneumonia score * weight need to fix this
+    # White = 1.0, Gray = 0.5, Black = 0.0
+    weighted_score = ((white_pixels_count * 1.0) + (gray_pixels_count * 0.5)) / total_pixels * 100
     
     # Determine pneumonia likelihood
     likely_pneumonia = False
     # Medical logic: Healthy lungs have lots of black (air)
-    # Pneumonia lungs have less black because white and grey could indicate fluid/infection
+    # Pneumonia lungs have less black because white and gray could indicate fluid/infection
     if black_percent <= 44:
         likely_pneumonia = True  # Less than 44% black = likely pneumonia
     else:
         likely_pneumonia = False  # More than 44% black = likely normal
     
     # Rounding values for display purposes
-    grey_percent_display = round(grey_percent, 1)
+    gray_percent_display = round(gray_percent, 1)
     white_percent_display = round(white_percent, 1)
     black_percent_display = round(black_percent, 1)
     weighted_score_display = round(weighted_score, 1)
@@ -83,12 +85,12 @@ for i in range(len(images)):
     # Adds to master(percentage) list
     result = {
         'filename': current_file,
-        'grey_percent': grey_percent,
+        'gray_percent': gray_percent,
         'white_percent': white_percent,
         'black_percent': black_percent,
         'weighted_score': weighted_score,
         'likely_pneumonia': likely_pneumonia,
-        'grey_display': grey_percent_display,
+        'gray_display': gray_percent_display,
         'white_display': white_percent_display,
         'black_display': black_percent_display,
         'score_display': weighted_score_display
@@ -99,7 +101,7 @@ for i in range(len(images)):
     # prints results for each imgae
     print("Image " + str(i + 1) + ": " + current_file)
     print("  Black (normal): " + str(black_percent_display) + "%")
-    print("  Grey (suspicious): " + str(grey_percent_display) + "%")
+    print("  Gray (suspicious): " + str(gray_percent_display) + "%")
     print("  White (pneumonia): " + str(white_percent_display) + "%")
     print("  Weighted score: " + str(weighted_score_display))
     print("  Likely pneumonia: " + ("YES" if likely_pneumonia else "NO"))
@@ -149,7 +151,7 @@ for i in range(display_count):
     print(str(rank) + ". " + item['filename'])
     print("   Score: " + str(item['score_display']))
     print("   White %: " + str(item['white_display']) + "%")
-    print("   Grey %: " + str(item['grey_display']) + "%")
+    print("   Gray %: " + str(item['gray_display']) + "%")
     print()
 
 '''
@@ -192,29 +194,30 @@ for target in search_scores:
         
 # Summary statistics
 if percentage:
+    '''
     print("=" * 50)
     print("SUMMARY STATISTICS:")
     print("=" * 50)
-    
+    '''
     total_images = len(percentage)
     pneumonia_count = 0
     
     total_white = 0
-    total_grey = 0
+    total_gray = 0
     total_black = 0
     
     for item in percentage:
         if item['likely_pneumonia']:
             pneumonia_count += 1
         total_white += item['white_percent']
-        total_grey += item['grey_percent']
+        total_gray += item['gray_percent']
         total_black += item['black_percent']
     
     avg_white = total_white / total_images
-    avg_grey = total_grey / total_images
+    avg_gray = total_gray / total_images
     avg_black = total_black / total_images
     
     print("Likely pneumonia cases: " + str(pneumonia_count))
     print("Average white % (pneumonia): " + str(round(avg_white, 1)) + "%")
-    print("Average grey % (suspicious): " + str(round(avg_grey, 1)) + "%")
+    print("Average gray % (suspicious): " + str(round(avg_gray, 1)) + "%")
     print("Average black % (normal): " + str(round(avg_black, 1)) + "%")
