@@ -8,3 +8,7 @@ exercises to include calculations, if you wish.
 Remember to design your algorithm in English first, then translate it to Python 
 code. Test as you go!
 """
+
+f = float(input("What temperature would you like to convert to celcius? "))
+cel = (f - 32) / (9/5)
+print("That is " + str(cel) + " degrees celcius")
