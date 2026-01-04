@@ -1,6 +1,6 @@
 import time
 
-# Start timing
+# start timing
 t0 = time.time()
 
 from PIL import Image
@@ -9,7 +9,7 @@ images = ["6.7/lung1.png", "6.7/lung2.png", "6.7/lung3.png", "6.7/lung4.png", "6
           "6.7/lung6.png", "6.7/lung7.png", "6.7/lung8.png", "6.7/lung9.png", "6.7/lung10.png"]
 
 def colour(r, g, b):
-    # Converts all colours to grayscale value
+    # converts all colours to grayscale value
     gray_value = int((r + g + b) / 3)
     
     if gray_value <= 100:  # Black - normal lungs
@@ -19,14 +19,14 @@ def colour(r, g, b):
     else:  # White - pneumonia
         return "white"
 
-# Percentage list to store all results
+# percentage list to store all results
 percentage = []
 
-# Processing each image
+# processing each image
 for i in range(len(images)):
     current_file = images[i]
     
-    # Opens image
+    # opens image
     image = Image.open(current_file)
     image_pixels = image.load()
     
@@ -38,7 +38,7 @@ for i in range(len(images)):
     
     for x in range(width):
         for y in range(height):
-            # Gets the RGB values from original image
+            # gets the RGB values from original image
             pixels = image_pixels[x, y]
             r = pixels[0]
             g = pixels[1]
@@ -53,7 +53,7 @@ for i in range(len(images)):
             elif pixel_type == "black":
                 black_pixels.append((x,y))
 
-            gray_pixels_count = len(gray_pixels)  # Number of gray pixels
+            gray_pixels_count = len(gray_pixels)  # number of gray pixels
             white_pixels_count = len(white_pixels)
             black_pixels_count = len(black_pixels)
     
@@ -63,26 +63,26 @@ for i in range(len(images)):
     white_percent = (white_pixels_count / total_pixels) * 100
     black_percent = (black_pixels_count / total_pixels) * 100
 
-    # Calculate ed pneumonia score * weight need to fix this
-    # White = 1.0, Gray = 0.5, Black = 0.0
+    # calculate ed pneumonia score
+    # white = 1.0, gray = 0.5, black = 0.0
     weighted_score = ((white_pixels_count * 1.0) + (gray_pixels_count * 0.5)) / total_pixels * 100
     
-    # Determine pneumonia likelihood
+    # determines pneumonia likelihood
     likely_pneumonia = False
-    # Medical logic: Healthy lungs have lots of black (air)
-    # Pneumonia lungs have less black because white and gray could indicate fluid/infection
+    # medical logic: Healthy lungs have lots of black (air)
+    #pneumonia lungs have less black because white and gray could indicate fluid/infection
     if black_percent <= 44:
         likely_pneumonia = True  # Less than 44% black = likely pneumonia
     else:
         likely_pneumonia = False  # More than 44% black = likely normal
     
-    # Rounding values for display purposes
+    # rounding values for display purposes
     gray_percent_display = round(gray_percent, 1)
     white_percent_display = round(white_percent, 1)
     black_percent_display = round(black_percent, 1)
     weighted_score_display = round(weighted_score, 1)
     
-    # Adds to master(percentage) list
+    #adds to master(percentage) list
     result = {
         'filename': current_file,
         'gray_percent': gray_percent,
@@ -112,16 +112,14 @@ t1 = time.time()
 processing_time = t1 - t0
 avg_time = processing_time / len(images)
 
-# Format times to 3 decimal places
-print("=" * 50)
+#format times to 3 decimal places
+print("Time Summary:")
 print("Processing time: {:.3f} seconds".format(processing_time))
-print("Average per image: {:.3f} seconds".format(avg_time))
-print("=" * 50)
-print()
+print("Average per image: {:.3f} seconds \n".format(avg_time))
 
 # Selection Sort (unit 6)- sort by weighted score (highest to lowest)
 def selection_sort(items):
-    # 'items' is what gets passed in (your percentage list)
+    # 'items' is what gets passed in the percentage list
     for i in range(len(items)):
         largest_score = items[i]['weighted_score']
         largest_index = i
@@ -138,11 +136,10 @@ def selection_sort(items):
 # sorts the results
 sorted_results = selection_sort(percentage)
 
-# Display top 5 using list slicing
-print("TOP 5 RESULTS (Most likely pneumonia):")
-print("=" * 50)
+#display top 5 using list slicing
+print("TOP 5 RESULTS (For images most likely to contain pneumonia):")
 
-# Show top 5 or fewer if less than 5 images
+#show top 5 or fewer if less than 5 images
 display_count = min(5, len(sorted_results))
 
 for i in range(display_count):
@@ -150,55 +147,73 @@ for i in range(display_count):
     rank = i + 1
     print(str(rank) + ". " + item['filename'])
     print("   Score: " + str(item['score_display']))
-    print("   White %: " + str(item['white_display']) + "%")
-    print("   Gray %: " + str(item['gray_display']) + "%")
     print()
 
-'''
-# Binary Search function
-def binary_search(data, target_score):
-    """Find image with specific score using binary search"""
-    left = 0
-    right = len(data) - 1
+
+#binary Search function for finding scores in ranges
+def binary_search_range(data, low_score, high_score):
+    """Find all images with scores between low_score and high_score"""
+    results = []
     
-    while left <= right:
-        mid = (left + right) // 2
+    #since the list is sorted in descending order, we need to find the range
+    #first we, find the first item with score <= high_score (since descending)
+    first_index = -1
+    low = 0
+    high = len(data) - 1
+    
+    while low <= high:
+        mid = (low + high) // 2
         current_score = data[mid]['weighted_score']
         
-        # Allow small difference
-        if abs(current_score - target_score) < 0.5:
-            return mid
-        elif current_score < target_score:
-            right = mid - 1
+        if current_score <= high_score:
+            #found an image, but we check if it's the first one
+            first_index = mid
+            high = mid - 1  # Look for earlier ones
         else:
-            left = mid + 1
+            #score is too high, need to go right (to smaller scores)
+            low = mid + 1
     
-    return -1  # Not found
+    #if we found a starting point, collect all scores in range
+    if first_index != -1:
+        i = first_index
+        while i < len(data) and data[i]['weighted_score'] >= low_score:
+            if low_score <= data[i]['weighted_score'] <= high_score:
+                results.append(data[i])
+            i += 1
+    
+    return results
 
+#binary search demonstration for score ranges
+print("Binary Search:")
+#define the ranges to search for
+ranges = [
+    (20, 30),
+    (30, 40),
+    (40, 50),
+    (50, 60),
+    (60, 70)
+]
 
-# Binary search demonstration
-print("BINARY SEARCH DEMONSTRATION:")
-print("=" * 50)
+print("Searching for pneumonia scores in 5 different ranges:\n")
 
-# Search for different scores **NEED TO FIX
-search_scores = [10, 20, 30, 40]
-for target in search_scores:
-    result_idx = binary_search(sorted_results, target)
-    if result_idx != -1:
-        found = sorted_results[result_idx]
-        print("Found image with score ~" + str(target) + ": " + found['filename'])
-        print("  Actual score: " + str(found['score_display']))
+#searches for each range
+for low, high in ranges:
+    print("Scores between " + str(low) + " and " + str(high) + ":")
+    
+    results_in_range = binary_search_range(sorted_results, low, high)
+    
+    if results_in_range:
+        for item in results_in_range:
+            print("  - " + item['filename'] + " (Score: " + str(item['score_display']) + ")")
     else:
-        print("No image found with score ~" + str(target))
-'''
-        
+        print("  No images found") #if no images found in range
+    
+    print()
+
 # Summary statistics
 if percentage:
-    '''
-    print("=" * 50)
-    print("SUMMARY STATISTICS:")
-    print("=" * 50)
-    '''
+    print("Summary:")
+    
     total_images = len(percentage)
     pneumonia_count = 0
     
@@ -217,6 +232,8 @@ if percentage:
     avg_gray = total_gray / total_images
     avg_black = total_black / total_images
     
+
+
     print("Likely pneumonia cases: " + str(pneumonia_count))
     print("Average white % (pneumonia): " + str(round(avg_white, 1)) + "%")
     print("Average gray % (suspicious): " + str(round(avg_gray, 1)) + "%")
